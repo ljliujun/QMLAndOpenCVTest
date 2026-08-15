@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/qt/qml/qmlandopencvtest">
+        <file>main.qml</file>
+        <file>GlobalMenu.qml</file>
+        <file>GlobalMenuItem.qml</file>
+        <file>HomePage.qml</file>
+        <file>HelpPage.qml</file>
+        <file>SearchPage.qml</file>
+        <file>SettingsPage.qml</file>
+        <file>StatisticsPage.qml</file>
+        <file>LeftToolBarButton.qml</file>
+        <file>LjMenuBar.qml</file>
+        <file>TopWidget.qml</file>
+        <file>card/WeatherCard.qml</file>
+    </qresource>
+</RCC>
