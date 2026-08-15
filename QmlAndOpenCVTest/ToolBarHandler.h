@@ -3,6 +3,8 @@
 
 #include <QDebug>
 #include <QString>
+#include <QObject>
+#include <QWindow>
 
 class ToolBarHandler : public QObject
 {
@@ -15,6 +17,10 @@ public:
     
     QString currentText() const { return m_currentText; }
     int currentPage() const { return m_currentPage; }
+    
+    // 添加窗口移动方法
+    Q_INVOKABLE void startWindowMove(QWindow *window, int offsetX, int offsetY);
+    
 public slots:
     // 主页按钮
     void onHomeClicked();

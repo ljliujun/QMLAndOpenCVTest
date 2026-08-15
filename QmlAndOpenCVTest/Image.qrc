@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Icon">
+        <file>Icon/close.svg</file>
+        <file>Icon/fullScreen.svg</file>
+        <file>Icon/min.svg</file>
+        <file>Icon/minScreen.svg</file>
+    </qresource>
+</RCC>

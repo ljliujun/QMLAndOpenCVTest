@@ -1,37 +1,66 @@
 ﻿import QtQuick 2.3
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
 
-Rectangle {
+Rectangle
+{
     id: titleBar
     color: "#FFFFFF"
 
-    Rectangle {
+    // 用于存储鼠标拖动时的偏移量
+    property int dragOffsetX: 0
+    property int dragOffsetY: 0
+
+    // 鼠标区域用于处理窗口拖动
+    MouseArea 
+    {
+        id: dragMouseArea
+        anchors.fill: parent
+        onPressed: 
+        {
+            dragOffsetX = mouse.x
+            dragOffsetY = mouse.y
+            // 使用 Windows API 实现原生拖动
+            if (toolBarHandler && appWindow) 
+            {
+                toolBarHandler.startWindowMove(appWindow, mouse.x, mouse.y)
+            }
+        }
+        propagateComposedEvents: false
+    }
+
+    Rectangle 
+    {
         width: parent.width
         height: 1
         color: "#E0E0E0"
         anchors.bottom: parent.bottom
     }
 
-    RowLayout {
+    RowLayout 
+    {
         id: rowLayout
         anchors.fill: parent
         anchors.bottomMargin: 1
         spacing: 0
 
-        Text {
+        Text 
+        {
             text: "天气助手"
             font.pixelSize: 20
             Layout.leftMargin: 10
         }
         Item { Layout.fillWidth: true }
         // ========== 中间内容区 ==========
-        Rectangle {
+        Rectangle 
+        {
             Layout.fillWidth: true
             Layout.fillHeight: true
             color: "transparent"
 
-            Rectangle {
+            Rectangle 
+            {
                 id: searchBox
                 width: parent.width
                 height: parent.height * 2 / 3
@@ -41,7 +70,8 @@ Rectangle {
                 border.width: 1
                 anchors.centerIn: parent
 
-                RowLayout {
+                RowLayout 
+                {
                     anchors.fill: parent
                     anchors.leftMargin: 16
                     anchors.rightMargin: 8
@@ -50,7 +80,8 @@ Rectangle {
                     anchors.bottomMargin: 8
                     spacing: 0
 
-                    TextField {
+                    TextField 
+                    {
                         id: searchInput
                         Layout.fillWidth: true
                         Layout.preferredHeight: 20        // 固定高度，不要 fillHeight
@@ -70,7 +101,8 @@ Rectangle {
                         }
                     }
 
-                    Button {
+                    Button 
+                    {
                         id: searchButton
                         text: "搜索"
                         flat: true
@@ -86,7 +118,8 @@ Rectangle {
             }
         }
         Item { Layout.fillWidth: true }
-        Button {
+        Button 
+        {
             id: model
             text: "夜间模式"
             flat: true                          // 背景透明
@@ -94,7 +127,8 @@ Rectangle {
             Layout.preferredHeight: 30
             font.pixelSize: 11
         }
-        Button {
+        Button 
+        {
             id: settings
             text: "设置"
             flat: true                          // 背景透明
@@ -102,7 +136,8 @@ Rectangle {
             Layout.preferredHeight: 30
             font.pixelSize: 11
         }
-        Button {
+        Button 
+        {
             id: about
             text: "关于"
             flat: true                          // 背景透明
@@ -110,32 +145,87 @@ Rectangle {
             Layout.preferredHeight: 30
             font.pixelSize: 11
         }
-        Button {
+        Button 
+        {
             id: minimizeButton
-            text: "_"
-            flat: true                          // 背景透明
+            flat: true
             Layout.preferredWidth: 36
             Layout.preferredHeight: 30
-            font.pixelSize: 14
+            
+            // 确保按钮可以接收鼠标事件
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    appWindow.visibility = Window.Minimized
+                }
+            }
+            
+            Image 
+            {
+                anchors.centerIn: parent
+                source: "qrc:/Icon/Icon/min.svg"
+                width: 16
+                height: 16
+
+                onStatusChanged: {
+                    if (status === Image.Error) {
+                        console.error("Failed to load SVG:", source)
+                    } else if (status === Image.Ready) {
+                        console.log("SVG loaded successfully:", source)
+                    }
+                }
+            }
         }
 
-        Button {
+        Button 
+        {
             id: maximizeButton
-            text: "[]"
             flat: true
             Layout.preferredWidth: 36
             Layout.preferredHeight: 30
-            font.pixelSize: 14
+            
+            // 根据窗口状态动态切换图标
+            property bool isMaximized: appWindow.visibility === Window.Maximized
+            
+            onClicked: 
+            {
+                if (appWindow.visibility === Window.Maximized)
+                {
+                    appWindow.visibility = Window.Windowed
+                } else 
+                {
+                    appWindow.visibility = Window.Maximized
+                }
+            }
+            
+            Image 
+            {
+                anchors.centerIn: parent
+                source: maximizeButton.isMaximized ? "qrc:/Icon/Icon/minScreen.svg" : "qrc:/Icon/Icon/fullScreen.svg"
+                width: 16
+                height: 16
+            }
         }
 
-        Button {
+        Button 
+        {
             id: closeButton
-            text: "X"
             flat: true
             Layout.preferredWidth: 36
             Layout.preferredHeight: 30
-            font.pixelSize: 14
-            onClicked: Qt.quit()
+            
+            MouseArea {
+                anchors.fill: parent
+                onClicked: Qt.quit()
+            }
+            
+            Image 
+            {
+                anchors.centerIn: parent
+                source: "qrc:/Icon/Icon/close.svg"
+                width: 16
+                height: 16
+            }
         }
     }
 }

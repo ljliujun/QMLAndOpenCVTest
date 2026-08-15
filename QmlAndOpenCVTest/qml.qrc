@@ -12,5 +12,6 @@
         <file>LjMenuBar.qml</file>
         <file>TopWidget.qml</file>
         <file>card/WeatherCard.qml</file>
+        <file>card/MainWeatherCard.qml</file>
     </qresource>
 </RCC>

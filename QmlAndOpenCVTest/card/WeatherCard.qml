@@ -1,12 +1,14 @@
 ﻿import QtQuick 2.3
 
-Rectangle {
+Rectangle 
+{
     color: "#FFFFFF"
     border.width: 1
     border.color: "#E0E0E0"
     radius: 10
-    Text {
+    /*Text 
+    {
         anchors.centerIn: parent
-        text: "Hello, World!"
-    }
+        text: "这是一个组件卡片!"
+    }*/
 }

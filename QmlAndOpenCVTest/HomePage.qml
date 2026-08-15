@@ -34,22 +34,43 @@ Rectangle
                 anchors.leftMargin: 5
                 anchors.rightMargin: 5
                 spacing: 20
+               
                 Rectangle
                 {
-                    Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Text
+                    width:120
+                    ColumnLayout
                     {
-                        text: "Hello, World!"
+                        anchors.fill: parent
+                        spacing:0
+                        Rectangle
+                        {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.preferredHeight: 2
+                            Text
+                            {
+                                text: "深圳市"
+                                font.pointSize: 15       // 像素大小，可根据需要调整
+                                font.bold: true          // 加粗（或使用 font.weight: Font.Bold）
+                            }
+                        }
+
+                        Rectangle
+                        {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.preferredHeight: 1
+                            Text
+                            {
+                                text: "Hello, World!"
+                            }
+                        }
                     }
                 }
                 
                 Rectangle
                 {
-                    
-                    // Layout.fillWidth: true
-                    // Layout.fillHeight: true
-                    // anchors.centerIn:parent
                     width:70
                     height:35
                     border.width: 1
@@ -62,12 +83,11 @@ Rectangle
                     }
                 }
                 
-                Item{Layout.fillWidth:true}
-                Item{Layout.fillWidth:true}
-                Item{Layout.fillWidth:true}
-                Item{Layout.fillWidth:true}
-                Item{Layout.fillWidth:true}
-                Item{Layout.fillWidth:true}
+                Item
+                {
+                    Layout.fillWidth:true
+                    
+                }
             }
         }
 
@@ -76,8 +96,8 @@ Rectangle
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 10
-
-            WeatherCard
+            
+            MainWeatherCard
             {
                 Layout.fillHeight: true
                 Layout.fillWidth: true

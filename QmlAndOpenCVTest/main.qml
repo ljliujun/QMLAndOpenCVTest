@@ -1,8 +1,7 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15   // 关键修改
-import QtQuick.Layouts 1.15    // StackLayout 需要这个模块
-
-
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
 
 ApplicationWindow 
 {
@@ -11,7 +10,11 @@ ApplicationWindow
     width: 800
     height: 600
     title: "Hello World"
-    // menuBar: LjMenuBar{}
+    
+    
+    // 去除系统标题栏，实现无边框窗口
+    flags: Qt.FramelessWindowHint | Qt.Window
+    
     ColumnLayout
     {
         anchors.fill: parent
@@ -19,8 +22,8 @@ ApplicationWindow
         
         TopWidget
         {
-            Layout.fillWidth: true       // ← 现在有效了
-            Layout.preferredHeight: 40   // ← 用 Layout 前缀
+            Layout.fillWidth: true
+            Layout.preferredHeight: 40
         }
         Rectangle 
         {
@@ -115,7 +118,8 @@ ApplicationWindow
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    currentIndex: toolBarHandler.currentPage  // 绑定到 C++ 的 currentPage 属性
+                    // 安全访问 currentPage，避免 null 引用错误
+                    currentIndex: toolBarHandler ? toolBarHandler.currentPage : 0
 
                     // 页面 0: 主页
                     HomePage
@@ -127,19 +131,16 @@ ApplicationWindow
                     {
                         // anchors.fill: parent
                     }
-
                     // 页面 2: 搜索
                     SearchPage
                     {
                         // anchors.fill: parent
                     }
-
                     // 页面 3: 统计
                     StatisticsPage
                     {
                         // anchors.fill: parent
                     }
-
                     // 页面 4: 帮助
                     HelpPage
                     {
@@ -148,11 +149,5 @@ ApplicationWindow
                 }
             }
         }
-      
     }
-    
-   
-
-
-
 }

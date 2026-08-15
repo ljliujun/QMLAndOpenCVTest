@@ -1,4 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
+﻿
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QApplication>
@@ -11,6 +11,8 @@
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
+
+#pragma execution_character_set("utf-8")
 
 int main(int argc, char *argv[])
 {
@@ -46,7 +48,17 @@ int main(int argc, char *argv[])
 
     // 创建工具栏处理器并注册到 QML 上下文
     ToolBarHandler toolBarHandler;
+    
+    qDebug() << "Creating ToolBarHandler instance at:" << &toolBarHandler;
     engine.rootContext()->setContextProperty("toolBarHandler", &toolBarHandler);
+    
+    // 验证是否注册成功
+    QVariant contextProp = engine.rootContext()->contextProperty("toolBarHandler");
+    if (contextProp.isValid() && !contextProp.isNull()) {
+        qDebug() << "ToolBarHandler registered successfully in QML context";
+    } else {
+        qWarning() << "Failed to register ToolBarHandler! Context property is invalid or null";
+    }
 
     // Helpful debug prints: show application dir and library paths
     qDebug() << "========== Application Start ==========";

@@ -1,15 +1,33 @@
 ﻿#include "ToolBarHandler.h"
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <QGuiApplication>
+#endif
 
-#pragma execution_character_set("utf-8")
-
-ToolBarHandler::ToolBarHandler(QObject* parent):QObject(parent)
+ToolBarHandler::ToolBarHandler(QObject *parent)
+    : QObject(parent)
 {
-    
 }
 
 ToolBarHandler::~ToolBarHandler()
 {
+}
+
+void ToolBarHandler::startWindowMove(QWindow *window, int offsetX, int offsetY)
+{
+#ifdef Q_OS_WIN
+    if (!window) return;
     
+    HWND hwnd = reinterpret_cast<HWND>(window->winId());
+    if (hwnd) {
+        ReleaseCapture();
+        SendMessage(hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+    }
+#else
+    Q_UNUSED(window);
+    Q_UNUSED(offsetX);
+    Q_UNUSED(offsetY);
+#endif
 }
 
 void ToolBarHandler::onHomeClicked()

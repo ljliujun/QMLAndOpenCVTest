@@ -37,13 +37,13 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;widgets;quick;quickcontrols2;charts</QtModules>
+    <QtModules>core;svg;widgets;quick;quickcontrols2;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtQMLDebugEnable>true</QtQMLDebugEnable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;widgets;quick;quickcontrols2;charts</QtModules>
+    <QtModules>core;svg;widgets;quick;quickcontrols2;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QtQMLDebugEnable>false</QtQMLDebugEnable>
   </PropertyGroup>
@@ -96,9 +96,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ToolBarHandler.cpp" />
+    <QtRcc Include="Image.qrc" />
     <QtRcc Include="qml.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="card\MainWeatherCard.qml" />
     <None Include="card\WeatherCard.qml" />
     <None Include="GlobalMenu.qml" />
     <None Include="GlobalMenuItem.qml" />
@@ -114,6 +116,13 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ToolBarHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QmlAndOpenCVTest.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
