@@ -103,7 +103,7 @@ Rectangle
                 Layout.fillWidth: true
             }
 
-            WeatherCard
+            HourlyForecastCard
             {
                 Layout.fillHeight: true
                 Layout.fillWidth: true

@@ -1,8 +1,7 @@
 QMLAndOpenCVTest
 ================
-# QML And OpenCV Test
-This is a test project for using OpenCV in QML.
-## How to run
+
+This is a test project for show weather information in QML.
 
 =========================更新日志===================
 
@@ -13,4 +12,9 @@ This is a test project for using OpenCV in QML.
 2.添加部分图标<br>
 
 3.去除系统标题栏<br>
+
+# V0.001_260817A(LiuJun)
+
+1.添加24小时天气预报UI布局<br>
+
 

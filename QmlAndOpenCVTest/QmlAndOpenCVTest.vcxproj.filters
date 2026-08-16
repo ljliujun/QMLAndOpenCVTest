@@ -82,6 +82,12 @@
     <None Include="card\MainWeatherCard.qml">
       <Filter>Source Files\UI\Card</Filter>
     </None>
+    <None Include="card\HourlyForecastCard.qml">
+      <Filter>Source Files\UI\Card</Filter>
+    </None>
+    <None Include="card\MainWeatherButtomCard.qml">
+      <Filter>Source Files\UI\Card</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ToolBarHandler.h">

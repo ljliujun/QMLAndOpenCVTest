@@ -13,5 +13,7 @@
         <file>TopWidget.qml</file>
         <file>card/WeatherCard.qml</file>
         <file>card/MainWeatherCard.qml</file>
+        <file>card/HourlyForecastCard.qml</file>
+        <file>card/MainWeatherButtomCard.qml</file>
     </qresource>
 </RCC>

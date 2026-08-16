@@ -9,7 +9,7 @@ WeatherCard
     ColumnLayout
     {
         anchors.bottomMargin: 10
-        anchors.topMargin: 15
+        anchors.topMargin: 50
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         anchors.fill: parent
@@ -34,6 +34,7 @@ WeatherCard
             }
             ColumnLayout
             {
+                // anchors.bottomMargin: 0
                 Layout.preferredWidth: 3
                 Rectangle
                 {
@@ -41,9 +42,9 @@ WeatherCard
                     Layout.fillHeight:true
                     Text
                     {
-                        Layout.preferredHeight: 3
+                        Layout.preferredHeight: 5
                         anchors.centerIn: parent
-                        font.pointSize: 30       // 像素大小，可根据需要调整
+                        font.pointSize: 40       // 点大小，可根据需要调整
                         font.bold: true          // 加粗（或使用 font.weight: Font.Bold）
                         text: "28℃"
                     }
@@ -90,6 +91,36 @@ WeatherCard
             Layout.preferredHeight: 1
             Layout.fillWidth:true
             Layout.fillHeight:true
+           
+            RowLayout
+            {
+                anchors.bottomMargin: 5
+                anchors.topMargin: 5
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.fill: parent
+                
+                MainWeatherButtomCard
+                {
+                    Layout.fillWidth:true
+                    Layout.fillHeight:true
+                }
+                MainWeatherButtomCard
+                {
+                    Layout.fillWidth:true
+                    Layout.fillHeight:true
+                }
+                MainWeatherButtomCard
+                {
+                    Layout.fillWidth:true
+                    Layout.fillHeight:true
+                }
+                MainWeatherButtomCard
+                {
+                    Layout.fillWidth:true
+                    Layout.fillHeight:true
+                }
+            }
         }
     }
 }

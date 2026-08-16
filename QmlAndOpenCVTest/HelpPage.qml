@@ -32,6 +32,7 @@ Rectangle
         // 帮助列表
         ListView
         {
+            clip: true  // 开启裁剪，防止子项超出边界显示
             width: 400
             height: 200
             spacing: 20
