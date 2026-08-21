@@ -1,12 +1,8 @@
-﻿
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QApplication>
-#include <QQmlContext>
-#include <QDebug>
-#include <QTextStream>
+﻿#include <QGuiApplication>
 #include <QTextCodec>
 #include "ToolBarHandler.h"
+#include "QmlEnginManager.h"
+#include "WeatherDeppend/WeatherManager.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -44,68 +40,14 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
-    QQmlApplicationEngine engine;
+    
+    // 创建 QmlEnginManager 实例
+    QmlEnginManager enginManager(app);
 
-    // 创建工具栏处理器并注册到 QML 上下文
-    ToolBarHandler toolBarHandler;
-    
-    qDebug() << "Creating ToolBarHandler instance at:" << &toolBarHandler;
-    engine.rootContext()->setContextProperty("toolBarHandler", &toolBarHandler);
-    
-    // 验证是否注册成功
-    QVariant contextProp = engine.rootContext()->contextProperty("toolBarHandler");
-    if (contextProp.isValid() && !contextProp.isNull()) {
-        qDebug() << "ToolBarHandler registered successfully in QML context";
-    } else {
-        qWarning() << "Failed to register ToolBarHandler! Context property is invalid or null";
-    }
-
-    // Helpful debug prints: show application dir and library paths
-    qDebug() << "========== Application Start ==========";
-    qDebug() << "ApplicationDirPath:" << QCoreApplication::applicationDirPath();
-    qDebug() << "LibraryPaths:" << QCoreApplication::libraryPaths();
-    qDebug() << "Qt Version:" << QT_VERSION_STR;
-    qDebug() << "ToolBarHandler registered in QML context";
-    qDebug() << "======================================";
-    
-
-    const QUrl url(QStringLiteral("qrc:/qt/qml/qmlandopencvtest/main.qml"));
-    
-    qDebug() << "Loading QML from URL:" << url.toString();
-    qDebug() << "URL is valid:" << url.isValid();
-    qDebug() << "URL scheme:" << url.scheme();
-    qDebug() << "URL path:" << url.path();
-    
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,&app, [url](const QObject *obj, const QUrl &objUrl) 
-    {
-        if (!obj && url == objUrl)
-        {
-            qCritical() << "========== FATAL ERROR: Failed to create QML object! ==========";
-            qCritical() << "URL:" << url.toString();
-            QCoreApplication::exit(-1);
-        }
-        else if (obj)
-        {
-            qDebug() << "QML object created successfully";
-        }
-    }, Qt::QueuedConnection);
-
-    engine.load(url);
-    
-    qDebug() << "Root objects count:" << engine.rootObjects().size();
-    
-    if (engine.rootObjects().isEmpty())
-    {
-        qWarning() << "========== ERROR: Failed to load QML file! ==========";
-        qWarning() << "Please check:";
-        qWarning() << "1. QRC file is properly included in project";
-        qWarning() << "2. QML file path is correct";
-        qWarning() << "3. Qt modules (quick, quickcontrols2, charts) are installed";
-        qWarning() << "4. Working directory is set correctly";
-        return -1;
-    }
-    
-    qDebug() << "========== Application loaded successfully ==========";
-
+    /*WeatherApi weather;
+    weather.setRequestCity("shenzhen");
+    weather.getCurrentWeather();#1#*/
+    WeatherManager weatherManager;
+    weatherManager.setCityName("shenzhen");
     return QApplication::exec();
 }

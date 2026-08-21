@@ -37,13 +37,13 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;svg;widgets;quick;quickcontrols2;charts</QtModules>
+    <QtModules>core;network;svg;widgets;quick;quickcontrols2;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtQMLDebugEnable>true</QtQMLDebugEnable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;svg;widgets;quick;quickcontrols2;charts</QtModules>
+    <QtModules>core;network;svg;widgets;quick;quickcontrols2;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QtQMLDebugEnable>false</QtQMLDebugEnable>
   </PropertyGroup>
@@ -95,7 +95,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="QmlEnginManager.cpp" />
     <ClCompile Include="ToolBarHandler.cpp" />
+    <ClCompile Include="WeatherDeppend\WeatherApi.cpp" />
+    <ClCompile Include="WeatherDeppend\WeatherManager.cpp" />
     <QtRcc Include="Image.qrc" />
     <QtRcc Include="qml.qrc" />
   </ItemGroup>
@@ -120,8 +123,11 @@
     <QtMoc Include="ToolBarHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QmlEnginManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="WeatherDeppend\WeatherManager.h" />
+    <QtMoc Include="WeatherDeppend\WeatherApi.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QmlAndOpenCVTest.rc" />

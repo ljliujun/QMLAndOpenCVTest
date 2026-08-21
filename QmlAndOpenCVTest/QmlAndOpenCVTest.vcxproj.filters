@@ -30,6 +30,9 @@
     <Filter Include="Source Files\UI\Card">
       <UniqueIdentifier>{010a7d66-e2d4-40ac-94c2-e8993ca1769f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\WeatherDeppend">
+      <UniqueIdentifier>{d0b69fe6-7a65-480e-a17c-057084756795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -40,6 +43,15 @@
     </QtRcc>
     <ClCompile Include="ToolBarHandler.cpp">
       <Filter>Source Files\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WeatherDeppend\WeatherApi.cpp">
+      <Filter>Source Files\WeatherDeppend</Filter>
+    </ClCompile>
+    <ClCompile Include="QmlEnginManager.cpp">
+      <Filter>Source Files\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WeatherDeppend\WeatherManager.cpp">
+      <Filter>Source Files\WeatherDeppend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +105,9 @@
     <QtMoc Include="ToolBarHandler.h">
       <Filter>Source Files\Source</Filter>
     </QtMoc>
+    <QtMoc Include="WeatherDeppend\WeatherApi.h">
+      <Filter>Source Files\WeatherDeppend</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -100,6 +115,12 @@
     </ClInclude>
     <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QmlEnginManager.h">
+      <Filter>Source Files\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="WeatherDeppend\WeatherManager.h">
+      <Filter>Source Files\WeatherDeppend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

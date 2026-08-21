@@ -1,4 +1,4 @@
-QMLAndOpenCVTest
+﻿QMLAndOpenCVTest
 ================
 
 This is a test project for show weather information in QML.
@@ -16,5 +16,11 @@ This is a test project for show weather information in QML.
 # V0.001_260817A(LiuJun)
 
 1.添加24小时天气预报UI布局<br>
+
+# V0.001_260821A(LiuJun)
+
+1.新增天气数据请求<br>
+
+2.优化代码结构<br>
 
 
