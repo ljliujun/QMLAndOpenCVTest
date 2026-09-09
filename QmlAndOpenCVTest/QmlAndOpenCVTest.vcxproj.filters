@@ -108,6 +108,9 @@
     <QtMoc Include="WeatherDeppend\WeatherApi.h">
       <Filter>Source Files\WeatherDeppend</Filter>
     </QtMoc>
+    <QtMoc Include="WeatherDeppend\WeatherManager.h">
+      <Filter>Source Files\WeatherDeppend</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -118,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="QmlEnginManager.h">
       <Filter>Source Files\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="WeatherDeppend\WeatherManager.h">
-      <Filter>Source Files\WeatherDeppend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

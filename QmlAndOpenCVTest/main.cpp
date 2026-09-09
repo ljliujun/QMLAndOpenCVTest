@@ -2,7 +2,6 @@
 #include <QTextCodec>
 #include "ToolBarHandler.h"
 #include "QmlEnginManager.h"
-#include "WeatherDeppend/WeatherManager.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -40,14 +39,9 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
-    
-    // 创建 QmlEnginManager 实例
+
+    // QmlEnginManager 内部会创建 WeatherManager 并注册到 QML 上下文
     QmlEnginManager enginManager(app);
 
-    /*WeatherApi weather;
-    weather.setRequestCity("shenzhen");
-    weather.getCurrentWeather();#1#*/
-    WeatherManager weatherManager;
-    weatherManager.setCityName("shenzhen");
     return QApplication::exec();
 }

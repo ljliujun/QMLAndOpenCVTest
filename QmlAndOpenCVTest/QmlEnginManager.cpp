@@ -2,18 +2,26 @@
 #include <QQmlApplicationEngine>
 #include <QCoreApplication>
 #include <QQmlContext>
+#include <QTimer>
 #include "ToolBarHandler.h"
+#include "WeatherDeppend/WeatherManager.h"
 
 
 QmlEnginManager::QmlEnginManager(const QApplication &app)
     : m_engine(new QQmlApplicationEngine)
+    , m_weatherManager(new WeatherManager)
 {
     loadQml(app);
     registCppClassToQml();
 }
 
 QmlEnginManager::~QmlEnginManager()
-= default;
+{
+    delete m_weatherManager;
+    m_weatherManager = nullptr;
+    delete m_engine;
+    m_engine = nullptr;
+}
 
 void QmlEnginManager::loadQml(const QApplication &app)
 {
@@ -72,11 +80,24 @@ void QmlEnginManager::registCppClassToQml() const
         qWarning() << "Failed to register ToolBarHandler! Context property is invalid or null";
     }
 
+    // 创建天气管理器并注册到 QML 上下文
+    m_weatherManager->setCityName(QStringLiteral("shenzhen"));
+    m_engine->rootContext()->setContextProperty("weatherManager", m_weatherManager);
+
+    QVariant weatherProp = m_engine->rootContext()->contextProperty("weatherManager");
+    if (weatherProp.isValid() && !weatherProp.isNull())
+        qDebug() << "WeatherManager registered successfully in QML context";
+    else
+        qWarning() << "Failed to register WeatherManager!";
+
+    // 延迟触发首次请求，避免阻塞窗口启动
+    QTimer::singleShot(0, m_weatherManager, &WeatherManager::getCurrentWeather);
+
     // Helpful debug prints: show application dir and library paths
     qDebug() << "========== Application Start ==========";
     qDebug() << "ApplicationDirPath:" << QCoreApplication::applicationDirPath();
     qDebug() << "LibraryPaths:" << QCoreApplication::libraryPaths();
     qDebug() << "Qt Version:" << QT_VERSION_STR;
-    qDebug() << "ToolBarHandler registered in QML context";
-    qDebug() << "======================================";
+    qDebug() << "ToolBarHandler + WeatherManager registered in QML context";
+    qDebug() << "=======================================";
 }

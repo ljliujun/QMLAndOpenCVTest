@@ -97,10 +97,6 @@ QJsonObject WeatherApi::requestWeather()
         }
         QByteArray data = reply->readAll();
 
-        /*qDebug() << "========== Raw Response Data ==========";
-        qDebug() << QString::fromUtf8(data);
-        qDebug() << "=======================================";*/
-
         QJsonParseError parseError;
 
         QJsonDocument document = QJsonDocument::fromJson(data,&parseError);
@@ -117,6 +113,8 @@ QJsonObject WeatherApi::requestWeather()
             return;
         }
         retJsonObjet = document.object();
+        //解析天气数据
+        paraWeatheJson(retJsonObjet);
         loop.quit();
     });
     loop.exec();
@@ -125,39 +123,71 @@ QJsonObject WeatherApi::requestWeather()
 }
 
 
-void WeatherApi::getCurrentWeather()
+void WeatherApi::paraWeatheJson(const QJsonObject& obj)
 {
-    
-    const auto requestJsonObj = requestWeather();
-    
-    qDebug() << "========== Parsed Weather Data ==========";
-    qDebug() << "City:" << requestJsonObj.value("name").toString();
-            
-    if (requestJsonObj.contains("weather")) 
+    if (obj.isEmpty())
     {
-        QJsonArray weatherArray = requestJsonObj.value("weather").toArray();
-        if (!weatherArray.isEmpty())
-        {
-            QJsonObject weather = weatherArray.first().toObject();
-            qDebug() << "Weather:" << weather.value("description").toString();
-            qDebug() << "Weather Main:" << weather.value("main").toString();
-        }
+        qWarning() << "WeatherManager: empty response, skip update";
+        return;
     }
-            
-    if (requestJsonObj.contains("main"))
+    m_cityName = obj.value("name").toString();
+
+    const QJsonArray weatherArray = obj.value("weather").toArray();
+    if (!weatherArray.isEmpty())
     {
-        QJsonObject main = requestJsonObj.value("main").toObject();
-        qDebug() << "Temperature:" << main.value("temp").toDouble() << "°C";
-        qDebug() << "Feels Like:" << main.value("feels_like").toDouble() << "°C";
-        qDebug() << "Humidity:" << main.value("humidity").toInt() << "%";
-        qDebug() << "Pressure:" << main.value("pressure").toInt() << "hPa";
+        m_description = weatherArray.first().toObject()
+            .value("description").toString();
     }
-            
-    if (requestJsonObj.contains("wind")) 
+
+    const QJsonObject main = obj.value("main").toObject();
+
+    m_temperature = main.value("temp").toDouble();
+
+    m_feelsLike = main.value("feels_like").toDouble();
+
+    m_humidity = main.value("humidity").toInt();
+
+    m_pressure = main.value("pressure").toInt();
+
+    const QJsonObject wind = obj.value("wind").toObject();
+    m_windSpeed = wind.value("speed").toDouble();
+
+}
+
+bool WeatherApi::getValue(const QString& name, QVariant& value)
+{
+    if (name == "cityName")
     {
-        QJsonObject wind = requestJsonObj.value("wind").toObject();
-        qDebug() << "Wind Speed:" << wind.value("speed").toDouble() << "m/s";
+        value = m_cityName;
     }
-            
-    qDebug() << "=======================================";
+    else if (name == "description")
+    {
+        value = m_description;
+    }
+    else if (name == "temperature")
+    {
+        value = m_temperature;
+    }
+    else if (name == "feelsLike")
+    {
+        value = m_feelsLike;
+    }
+    else if (name == "humidity")
+    {
+        value = m_humidity;
+    }
+    else if (name == "pressure")
+    {
+        value = m_pressure;
+    }
+    else if (name == "windSpeed")
+    {
+        value = m_windSpeed;
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
 }

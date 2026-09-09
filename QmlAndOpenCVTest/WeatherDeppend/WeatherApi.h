@@ -13,16 +13,15 @@ public:
     void setRequestCity(const QString& requestCity);
     void initRequest(const QString& requestCity);
     QJsonObject requestWeather();
+    //解析请求到的数据
+    void paraWeatheJson(const QJsonObject& obj);
 
-    void getCurrentWeather();
-
+    bool getValue(const QString& name, QVariant& value);
 signals:
 
-    void weatherReceived(
-        const QJsonObject& data);
+    void weatherReceived(const QJsonObject& data);
 
-    void errorOccurred(
-        const QString& error);
+    void errorOccurred(const QString& error);
 
 private:
 
@@ -30,4 +29,12 @@ private:
     QNetworkRequest* m_request;
 
     QString m_apiKey;
+
+    QString m_cityName;
+    QString m_description;
+    double  m_temperature = 0.0;
+    double  m_feelsLike = 0.0;
+    int     m_humidity = 0;
+    int     m_pressure = 0;
+    double  m_windSpeed = 0.0;
 };

@@ -3,6 +3,7 @@
 #include <QApplication>
 
 class QQmlApplicationEngine;
+class WeatherManager;
 
 class QmlEnginManager
 {
@@ -15,5 +16,6 @@ private:
     void registCppClassToQml() const;
 private:
     QQmlApplicationEngine *m_engine;
+    WeatherManager        *m_weatherManager;
 };
 

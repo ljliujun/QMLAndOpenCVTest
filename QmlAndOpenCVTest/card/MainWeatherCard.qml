@@ -46,7 +46,7 @@ WeatherCard
                         anchors.centerIn: parent
                         font.pointSize: 40       // 点大小，可根据需要调整
                         font.bold: true          // 加粗（或使用 font.weight: Font.Bold）
-                        text: "28℃"
+                        text: weatherManager ? (Math.round(weatherManager.temperature) + "℃") : "--℃"
                     }
                 }
                 Rectangle
@@ -63,7 +63,7 @@ WeatherCard
                             horizontalCenter: parent.horizontalCenter
                         }
                         font.pointSize: 10       // 像素大小，可根据需要调整
-                        text: "体感温度 29℃"
+                        text: weatherManager ? ("体感温度 " + Math.round(weatherManager.feelsLike) + "℃") : "体感温度 --"
                     }
                 }
             }
@@ -81,7 +81,7 @@ WeatherCard
                         verticalCenter: parent.verticalCenter
                     }
                     font.pointSize: 13       // 像素大小，可根据需要调整
-                    text: "晴"
+                    text: weatherManager ? weatherManager.description : "--"
                 }
             }
         }
@@ -104,21 +104,29 @@ WeatherCard
                 {
                     Layout.fillWidth:true
                     Layout.fillHeight:true
+                    cardTitle: "湿度"
+                    cardValue: weatherManager ? (weatherManager.humidity + "%") : "--"
                 }
                 MainWeatherButtomCard
                 {
                     Layout.fillWidth:true
                     Layout.fillHeight:true
+                    cardTitle: "气压"
+                    cardValue: weatherManager ? (weatherManager.pressure + "hPa") : "--"
                 }
                 MainWeatherButtomCard
                 {
                     Layout.fillWidth:true
                     Layout.fillHeight:true
+                    cardTitle: "风速"
+                    cardValue: weatherManager ? (weatherManager.windSpeed + "m/s") : "--"
                 }
                 MainWeatherButtomCard
                 {
                     Layout.fillWidth:true
                     Layout.fillHeight:true
+                    cardTitle: "体感"
+                    cardValue: weatherManager ? (Math.round(weatherManager.feelsLike) + "℃") : "--"
                 }
             }
         }
