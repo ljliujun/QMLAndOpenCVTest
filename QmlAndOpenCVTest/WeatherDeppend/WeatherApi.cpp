@@ -114,7 +114,7 @@ QJsonObject WeatherApi::requestWeather()
         }
         retJsonObjet = document.object();
         //解析天气数据
-        paraWeatheJson(retJsonObjet);
+        paraWeatherJson(retJsonObjet);
         loop.quit();
     });
     loop.exec();
@@ -123,7 +123,7 @@ QJsonObject WeatherApi::requestWeather()
 }
 
 
-void WeatherApi::paraWeatheJson(const QJsonObject& obj)
+void WeatherApi::paraWeatherJson(const QJsonObject& obj)
 {
     if (obj.isEmpty())
     {
@@ -154,7 +154,7 @@ void WeatherApi::paraWeatheJson(const QJsonObject& obj)
 
 }
 
-bool WeatherApi::getValue(const QString& name, QVariant& value)
+bool WeatherApi::getValue(const QString& name, QVariant& value) const
 {
     if (name == "cityName")
     {

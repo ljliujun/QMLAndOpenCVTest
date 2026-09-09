@@ -8,8 +8,7 @@ WeatherManager::WeatherManager(QObject* parent)
     : QObject(parent)
     , m_weatherApi(new WeatherApi)
 {
-    connect(m_weatherApi, &WeatherApi::errorOccurred,
-            this, &WeatherManager::errorOccurred);
+    connect(m_weatherApi, &WeatherApi::errorOccurred, this, &WeatherManager::errorOccurred);
 }
 
 WeatherManager::~WeatherManager()
@@ -18,7 +17,7 @@ WeatherManager::~WeatherManager()
     m_weatherApi = nullptr;
 }
 
-void WeatherManager::setCityName(const QString& city)
+void WeatherManager::setCityName(const QString& city) const
 {
     m_weatherApi->setRequestCity(city);
 }

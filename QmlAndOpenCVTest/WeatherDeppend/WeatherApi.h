@@ -14,9 +14,9 @@ public:
     void initRequest(const QString& requestCity);
     QJsonObject requestWeather();
     //解析请求到的数据
-    void paraWeatheJson(const QJsonObject& obj);
+    void paraWeatherJson(const QJsonObject& obj);
 
-    bool getValue(const QString& name, QVariant& value);
+    bool getValue(const QString& name, QVariant& value) const;
 signals:
 
     void weatherReceived(const QJsonObject& data);

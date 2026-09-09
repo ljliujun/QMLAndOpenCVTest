@@ -25,7 +25,7 @@ public:
     int     pressure() const;
     double  windSpeed() const;
 
-    void setCityName(const QString& city);
+    void setCityName(const QString& city) const;
     Q_INVOKABLE void getCurrentWeather();
 
 signals:
