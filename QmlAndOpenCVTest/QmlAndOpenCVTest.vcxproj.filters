@@ -33,6 +33,30 @@
     <Filter Include="Source Files\WeatherDeppend">
       <UniqueIdentifier>{d0b69fe6-7a65-480e-a17c-057084756795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TitleBar">
+      <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\FirstPage">
+      <UniqueIdentifier>{b2c3d4e5-f6a7-8901-bcde-f12345678901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\DesktopWidget">
+      <UniqueIdentifier>{c3d4e5f6-a7b8-9012-cdef-123456789012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\MapView">
+      <UniqueIdentifier>{d4e5f6a7-b8c9-0123-defa-234567890123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\MultiCityManagement">
+      <UniqueIdentifier>{e5f6a7b8-c9d0-1234-efab-345678901234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\WeatherAlert">
+      <UniqueIdentifier>{f6a7b8c9-d0e1-2345-fabc-456789012345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Sidebar">
+      <UniqueIdentifier>{a7b8c9d0-e1f2-3456-abcd-567890123456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Resource">
+      <UniqueIdentifier>{b8c9d0e1-f2a3-4567-bcde-678901234567}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,17 +65,20 @@
     <QtRcc Include="qml.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <ClCompile Include="ToolBarHandler.cpp">
-      <Filter>Source Files\Source</Filter>
+    <ClCompile Include="TitleBar\ToolBarHandler.cpp">
+      <Filter>Source Files\TitleBar</Filter>
     </ClCompile>
     <ClCompile Include="WeatherDeppend\WeatherApi.cpp">
       <Filter>Source Files\WeatherDeppend</Filter>
     </ClCompile>
-    <ClCompile Include="QmlEnginManager.cpp">
-      <Filter>Source Files\Source</Filter>
-    </ClCompile>
     <ClCompile Include="WeatherDeppend\WeatherManager.cpp">
       <Filter>Source Files\WeatherDeppend</Filter>
+    </ClCompile>
+    <ClCompile Include="WeatherDeppend\ForecastModel.cpp">
+      <Filter>Source Files\WeatherDeppend</Filter>
+    </ClCompile>
+    <ClCompile Include="QmlEngin\QmlEnginManager.cpp">
+      <Filter>Source Files\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,29 +91,29 @@
     <None Include="main.qml">
       <Filter>Source Files\UI</Filter>
     </None>
-    <None Include="HomePage.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="FirstPage\HomePage.qml">
+      <Filter>Source Files\UI\FirstPage</Filter>
     </None>
-    <None Include="SettingsPage.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="MultiCityManagement\SettingsPage.qml">
+      <Filter>Source Files\UI\MultiCityManagement</Filter>
     </None>
-    <None Include="SearchPage.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="MapView\SearchPage.qml">
+      <Filter>Source Files\UI\MapView</Filter>
     </None>
-    <None Include="StatisticsPage.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="WeatherAlert\StatisticsPage.qml">
+      <Filter>Source Files\UI\WeatherAlert</Filter>
     </None>
-    <None Include="HelpPage.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="DesktopWidget\HelpPage.qml">
+      <Filter>Source Files\UI\DesktopWidget</Filter>
     </None>
-    <None Include="LeftToolBarButton.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="Sidebar\LeftToolBarButton.qml">
+      <Filter>Source Files\UI\Sidebar</Filter>
     </None>
-    <None Include="LjMenuBar.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="TitleBar\LjMenuBar.qml">
+      <Filter>Source Files\TitleBar</Filter>
     </None>
-    <None Include="TopWidget.qml">
-      <Filter>Source Files\UI</Filter>
+    <None Include="TitleBar\TopWidget.qml">
+      <Filter>Source Files\TitleBar</Filter>
     </None>
     <None Include="card\WeatherCard.qml">
       <Filter>Source Files\UI\Card</Filter>
@@ -102,8 +129,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ToolBarHandler.h">
-      <Filter>Source Files\Source</Filter>
+    <QtMoc Include="TitleBar\ToolBarHandler.h">
+      <Filter>Source Files\TitleBar</Filter>
     </QtMoc>
     <QtMoc Include="WeatherDeppend\WeatherApi.h">
       <Filter>Source Files\WeatherDeppend</Filter>
@@ -113,13 +140,16 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Resource\resource.h">
+      <Filter>Resource Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Resource\resource1.h">
+      <Filter>Resource Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="QmlEnginManager.h">
+    <QtMoc Include="WeatherDeppend\ForecastModel.h">
+      <Filter>Source Files\WeatherDeppend</Filter>
+    </QtMoc>
+    <ClInclude Include="QmlEngin\QmlEnginManager.h">
       <Filter>Source Files\Source</Filter>
     </ClInclude>
   </ItemGroup>

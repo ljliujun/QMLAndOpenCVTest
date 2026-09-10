@@ -3,17 +3,17 @@
         <file>main.qml</file>
         <file>GlobalMenu.qml</file>
         <file>GlobalMenuItem.qml</file>
-        <file>HomePage.qml</file>
-        <file>HelpPage.qml</file>
-        <file>SearchPage.qml</file>
-        <file>SettingsPage.qml</file>
-        <file>StatisticsPage.qml</file>
-        <file>LeftToolBarButton.qml</file>
-        <file>LjMenuBar.qml</file>
-        <file>TopWidget.qml</file>
-        <file>card/WeatherCard.qml</file>
-        <file>card/MainWeatherCard.qml</file>
+        <file>FirstPage/HomePage.qml</file>
+        <file>DesktopWidget/HelpPage.qml</file>
+        <file>MapView/SearchPage.qml</file>
+        <file>MultiCityManagement/SettingsPage.qml</file>
+        <file>WeatherAlert/StatisticsPage.qml</file>
+        <file>Sidebar/LeftToolBarButton.qml</file>
+        <file>TitleBar/LjMenuBar.qml</file>
+        <file>TitleBar/TopWidget.qml</file>
         <file>card/HourlyForecastCard.qml</file>
         <file>card/MainWeatherButtomCard.qml</file>
+        <file>card/MainWeatherCard.qml</file>
+        <file>card/WeatherCard.qml</file>
     </qresource>
 </RCC>

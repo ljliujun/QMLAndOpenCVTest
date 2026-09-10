@@ -3,6 +3,14 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
 
+import "TitleBar"
+import "Sidebar"
+import "FirstPage"
+import "MultiCityManagement"
+import "MapView"
+import "WeatherAlert"
+import "DesktopWidget"
+
 ApplicationWindow 
 {
     id: appWindow

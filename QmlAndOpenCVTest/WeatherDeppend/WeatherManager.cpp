@@ -2,11 +2,14 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QDateTime>
 #include "WeatherDeppend/WeatherApi.h"
+#include "ForecastModel.h"
 
 WeatherManager::WeatherManager(QObject* parent)
     : QObject(parent)
     , m_weatherApi(new WeatherApi)
+    , m_forecastModel(new ForecastModel(this))
 {
     connect(m_weatherApi, &WeatherApi::errorOccurred, this, &WeatherManager::errorOccurred);
 }
@@ -17,8 +20,9 @@ WeatherManager::~WeatherManager()
     m_weatherApi = nullptr;
 }
 
-void WeatherManager::setCityName(const QString& city) const
+void WeatherManager::setCityName(const QString& city)
 {
+    m_cityName = city;
     m_weatherApi->setRequestCity(city);
 }
 
@@ -58,8 +62,34 @@ void WeatherManager::getCurrentWeather()
         m_windSpeed = value.toDouble();
     }
 
+    qDebug() << "Current weather updated, now fetching forecast...";
     emit weatherChanged();
+
+    // 当前天气获取成功后，再请求预报数据
+    getForecast();
 }
+
+// ---- 预报请求 ----
+void WeatherManager::getForecast()
+{
+    if (m_cityName.isEmpty())
+    {
+        qWarning() << "WeatherManager: cityName is empty, skip forecast request";
+        return;
+    }
+    const QJsonObject obj = m_weatherApi->requestForecast(40);
+
+    QList<ForecastItem> items;
+    QVariant value;
+    if (m_weatherApi->getValue("forecast", value))
+    {
+        items = value.value<QList<ForecastItem>>();
+    }
+    m_forecastModel->setItems(items);
+
+    emit forecastChanged();
+}
+
 
 QString WeatherManager::cityName() const   
 {
@@ -93,6 +123,11 @@ int WeatherManager::pressure() const
 double WeatherManager::windSpeed() const
 {
     return m_windSpeed; 
+}
+
+ForecastModel* WeatherManager::forecastModel() const
+{
+    return m_forecastModel;
 }
 
 

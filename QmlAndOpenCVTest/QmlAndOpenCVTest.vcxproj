@@ -125,9 +125,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="QmlEngin\QmlEnginManager.cpp" />
+    <ClCompile Include="WeatherDeppend\ForecastModel.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="QmlEnginManager.cpp" />
-    <ClCompile Include="ToolBarHandler.cpp" />
+    <ClCompile Include="TitleBar\ToolBarHandler.cpp" />
     <ClCompile Include="WeatherDeppend\WeatherApi.cpp" />
     <ClCompile Include="WeatherDeppend\WeatherManager.cpp" />
     <QtRcc Include="Image.qrc" />
@@ -140,23 +141,24 @@
     <None Include="card\WeatherCard.qml" />
     <None Include="GlobalMenu.qml" />
     <None Include="GlobalMenuItem.qml" />
-    <None Include="HelpPage.qml" />
-    <None Include="HomePage.qml" />
-    <None Include="LeftToolBarButton.qml" />
-    <None Include="LjMenuBar.qml" />
+    <None Include="DesktopWidget\HelpPage.qml" />
+    <None Include="FirstPage\HomePage.qml" />
+    <None Include="Sidebar\LeftToolBarButton.qml" />
+    <None Include="TitleBar\LjMenuBar.qml" />
     <None Include="main.qml" />
-    <None Include="SearchPage.qml" />
-    <None Include="SettingsPage.qml" />
-    <None Include="StatisticsPage.qml" />
-    <None Include="TopWidget.qml" />
+    <None Include="MapView\SearchPage.qml" />
+    <None Include="MultiCityManagement\SettingsPage.qml" />
+    <None Include="WeatherAlert\StatisticsPage.qml" />
+    <None Include="TitleBar\TopWidget.qml" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ToolBarHandler.h" />
+    <QtMoc Include="TitleBar\ToolBarHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QmlEnginManager.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="QmlEngin\QmlEnginManager.h" />
+    <ClInclude Include="Resource\resource.h" />
+    <ClInclude Include="Resource\resource1.h" />
+    <QtMoc Include="WeatherDeppend\ForecastModel.h" />
     <QtMoc Include="WeatherDeppend\WeatherApi.h" />
     <QtMoc Include="WeatherDeppend\WeatherManager.h" />
   </ItemGroup>

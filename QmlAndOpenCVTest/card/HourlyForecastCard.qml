@@ -4,34 +4,23 @@ import QtQuick.Layouts 1.15
 
 WeatherCard {
     id: hourlyForecasrCard
-    // 给个明确的尺寸便于调试
 
-    ListModel 
-    {
-        id: tempModel
-        ListElement { time: "现在"; icon: ""; temp: "28°C" }
-        ListElement { time: "11:00"; icon: ""; temp: "30°C" }
-        ListElement { time: "14:00"; icon: ""; temp: "32°C" }
-        ListElement { time: "17:00"; icon: ""; temp: "31°C" }
-        ListElement { time: "20:00"; icon: ""; temp: "29°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
-        ListElement { time: "23:00"; icon: ""; temp: "27°C" }
+  // 根据 OpenWeatherMap 的 icon code 返回 emoji
+    // icon code 格式：XXd（白天）或 XXn（夜晚），XX 取值 01/02/03/04/09/10/11/13/50
+    function weatherEmoji(code) {
+        if (!code) return "☁️"
+        var prefix = code.substring(0, 2)
+        var isDay = code.indexOf("d") >= 0
+        if (prefix === "01") return isDay ? "☀️" : "🌙"   // 晴
+        if (prefix === "02") return isDay ? "⛅" : "☁️"   // 少云
+        if (prefix === "03") return "☁️"                    // 多云
+        if (prefix === "04") return "☁️"                    // 阴
+        if (prefix === "09") return "🌧️"                    // 阵雨
+        if (prefix === "10") return "🌧️"                    // 雨
+        if (prefix === "11") return "⛈️"                    // 雷暴
+        if (prefix === "13") return "❄️"                    // 雪
+        if (prefix === "50") return "🌫️"                    // 雾
+        return "☁️"
     }
 
     // 顶部标题栏
@@ -46,7 +35,7 @@ WeatherCard {
         height: 24
 
         Text {
-            text: "24小时天气预报"
+            text: "未来5天天气预报"
             font.pointSize: 9
             font.bold: true
             color: "#333333"
@@ -80,89 +69,74 @@ WeatherCard {
         ListView 
         {
             id: listView
-            // 🔥 修复：在 Layout 里面不要用 anchors.fill，改用 Layout 属性
+           
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true  // 🔥 核心修复：开启裁剪，防止子项超出边界显示
+            clip: true  // 开启裁剪，防止子项超出边界显示
 
             orientation: ListView.Horizontal
             layoutDirection: Qt.LeftToRight
             spacing: 4
 
-            model: tempModel
+            model: weatherManager ? weatherManager.forecastModel : null
 
             delegate: Item
             {
                 id: delegateItem
-                width: 45
+                width: 60
                 height: listView.height
 
-                // 🔥 修复：内部也改用 ColumnLayout
-                ColumnLayout 
+                ColumnLayout
                 {
-                    // 🔥 关键：去掉 anchors.centerIn，改为填充整个父容器
                     anchors.fill: parent
-                    // spacing: 16 (注释掉，因为现在已经由两个 Item 动态分配间距了)
-                    anchors.bottomMargin: 15   // 🔥 增加底部边距，避开水平滚动条
+                    anchors.bottomMargin: 15
+                    spacing: 2
 
-                    Text 
-                    {
+                    Text {
                         text: model.time
-                        font.pointSize: 12
-                        color: (index === 0) ? "#333333" : "#666666"
+                        font.pointSize: 9
+                        color: "#666666"
                         font.bold: (index === 0)
                         Layout.alignment: Qt.AlignHCenter
+                        Layout.preferredWidth: delegateItem.width
+                        horizontalAlignment: Text.AlignHCenter
+                        clip: true
+                        elide: Text.ElideRight
                     }
 
-                    // 🔥 弹性占位符 1（会在 Time 和 Icon 之间自动分配垂直空间）
-                    Item 
-                    {
-                        Layout.fillHeight: true
-                    }
+                    Item { Layout.fillHeight: true }
 
-                    Image 
-                    {
-                        source: model.icon || "qrc:/Icon/Icon/fullScreen.svg"
-                        Layout.preferredWidth: 28
-                        Layout.preferredHeight: 28
-                        fillMode: Image.PreserveAspectFit
+                    Text {
+                        text: weatherEmoji(model.icon)
+                        font.pointSize: 18
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                    // 🔥 弹性占位符 2（会在 Icon 和 Temp 之间自动分配垂直空间）
-                    Item 
-                    {
-                        Layout.fillHeight: true
-                    }
+                    Item { Layout.fillHeight: true }
 
-                    Text 
-                    {
-                        text: model.temp
+                    Text {
+                        text: Math.round(model.temp) + "℃"
                         font.pointSize: 12
                         font.bold: true
                         color: "#222222"
                         Layout.alignment: Qt.AlignHCenter
                     }
-                }
 
-                // // 蓝色选中指示条
-                // Rectangle
-                // {
-                //     width: 20
-                //     height: 3
-                //     radius: 2
-                //     color: "#1A73E8"
-                //     anchors.bottom: parent.bottom
-                //     anchors.bottomMargin: 2
-                //     anchors.horizontalCenter: parent.horizontalCenter
-                //     visible: index === 0
-                // }
+                    Text {
+                        text: model.description
+                        font.pointSize: 8
+                        color: "#999999"
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.preferredWidth: delegateItem.width
+                        horizontalAlignment: Text.AlignHCenter
+                        clip: true
+                        elide: Text.ElideRight
+                    }
+                }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        console.log("选中:", model.time)
-                    }
+                    onClicked: console.log("选中:", model.time)
                 }
             }
 

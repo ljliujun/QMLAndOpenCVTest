@@ -1,7 +1,7 @@
 ﻿import QtQuick 2.3
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
-import "card"
+import "../card"
 
 Rectangle
 {

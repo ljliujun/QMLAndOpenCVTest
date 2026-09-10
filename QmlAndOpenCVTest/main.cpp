@@ -1,7 +1,7 @@
 ﻿#include <QGuiApplication>
 #include <QTextCodec>
-#include "ToolBarHandler.h"
-#include "QmlEnginManager.h"
+#include "TitleBar/ToolBarHandler.h"
+#include "./QmlEngin/QmlEnginManager.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>

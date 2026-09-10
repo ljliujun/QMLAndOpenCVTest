@@ -9,6 +9,7 @@
 #include <QSslSocket>
 #include <QDebug>
 #include <QEventLoop>
+#include "ForecastModel.h"
 
 #pragma execution_character_set("utf-8")
 
@@ -16,6 +17,7 @@ WeatherApi::WeatherApi(QObject* parent)
     : QObject(parent)
     , m_manager(new QNetworkAccessManager)
     , m_request(nullptr)
+    , m_forecastRequest(nullptr)
 {
     m_apiKey = "874084ed8d8544487e165b13eb45809c";
 }
@@ -26,6 +28,11 @@ WeatherApi::~WeatherApi()
     {
         delete m_request;
         m_request = nullptr;
+    }
+    if (m_forecastRequest)
+    {
+        delete m_forecastRequest;
+        m_forecastRequest = nullptr;
     }
     if (m_manager)
     {
@@ -41,6 +48,7 @@ void WeatherApi::setRequestCity(const QString& requestCity)
 
 void WeatherApi::initRequest(const QString& requestCity)
 {
+    m_requestCity = requestCity;
     qDebug() << "SSL supported:"
              << QSslSocket::supportsSsl();
 
@@ -154,6 +162,59 @@ void WeatherApi::paraWeatherJson(const QJsonObject& obj)
 
 }
 
+void WeatherApi::paraForecastJson(const QJsonObject& obj)
+{
+
+    m_forecastItems.clear();
+
+    if (obj.isEmpty())
+    {
+        qWarning() << "WeatherManager: forecast response empty";
+        return;
+    }
+
+    const QJsonArray list = obj.value("list").toArray();
+    m_forecastItems.reserve(list.size());
+
+    for (const QJsonValue& val : list)
+    {
+        const QJsonObject entry = val.toObject();
+        
+        std::shared_ptr<ForecastItem> item = std::make_shared<ForecastItem>();
+
+        const QString dtText = entry.value("dt_txt").toString();
+        if (dtText.size() >= 16)
+        {
+            item->timeText = dtText.mid(11, 5); // "12:00"
+        }
+        else
+        {
+            item->timeText = dtText;
+        }
+
+        // 天气描述
+        const QJsonArray weatherArr = entry.value("weather").toArray();
+        if (!weatherArr.isEmpty())
+        {
+            const QJsonObject w = weatherArr.first().toObject();
+            item->description = w.value("description").toString();
+            item->icon = w.value("icon").toString();
+        }
+
+        // 主数据
+        const QJsonObject main = entry.value("main").toObject();
+        item->temp = main.value("temp").toDouble();
+        item->feelsLike = main.value("feels_like").toDouble();
+        item->humidity = main.value("humidity").toInt();
+
+        // 风速
+        const QJsonObject wind = entry.value("wind").toObject();
+        item->windSpeed = wind.value("speed").toDouble();
+
+        m_forecastItems.append(item);
+    }
+}
+
 bool WeatherApi::getValue(const QString& name, QVariant& value) const
 {
     if (name == "cityName")
@@ -184,6 +245,15 @@ bool WeatherApi::getValue(const QString& name, QVariant& value) const
     {
         value = m_windSpeed;
     }
+    else if (name == "forecast")
+    {
+        QList<ForecastItem> forecastItems;
+        for (const auto& item : m_forecastItems)
+        {
+            forecastItems.append(*item);
+        }
+        value = QVariant::fromValue(forecastItems);
+    }
     else
     {
         return false;
@@ -191,3 +261,68 @@ bool WeatherApi::getValue(const QString& name, QVariant& value) const
 
     return true;
 }
+
+QNetworkRequest WeatherApi::buildForecastRequest(const QString& city, int cnt)
+{
+    QUrl url("https://cn-api.openweathermap.org/data/2.5/forecast");
+    QUrlQuery query;
+    query.addQueryItem("q", city);
+    query.addQueryItem("appid", m_apiKey);
+    query.addQueryItem("units", "metric");
+    query.addQueryItem("lang", "zh_cn");
+    query.addQueryItem("cnt", QString::number(cnt));
+    url.setQuery(query);
+
+    QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, "WeatherStudio/1.0");
+    return req;
+}
+
+QJsonObject WeatherApi::requestForecast(int cnt)
+{
+    if (!m_manager || m_requestCity.isEmpty())
+    {
+        qWarning() << "requestForecast: requestCity is empty, skip";
+        return {};
+    }
+
+    qDebug() << "requestForecast: requesting forecast for" << m_requestCity << "cnt=" << cnt;
+
+    if (m_forecastRequest)
+    {
+        delete m_forecastRequest;
+        m_forecastRequest = nullptr;
+    }
+    m_forecastRequest = new QNetworkRequest(buildForecastRequest(m_requestCity, cnt));
+
+    QJsonObject retObj;
+    QEventLoop loop;
+    QNetworkReply* reply = m_manager->get(*m_forecastRequest);
+
+    connect(reply, &QNetworkReply::finished, this, [this,reply, &retObj, &loop]
+        {
+            reply->deleteLater();
+            if (reply->error() != QNetworkReply::NoError)
+            {
+                qWarning() << "requestForecast error:" << reply->errorString();
+                loop.quit();
+                return;
+            }
+            QJsonParseError parseError;
+            QJsonDocument document = QJsonDocument::fromJson(reply->readAll(), &parseError);
+            if (parseError.error != QJsonParseError::NoError || !document.isObject())
+            {
+                qWarning() << "requestForecast JSON parse error:" << parseError.errorString();
+                loop.quit();
+                return;
+            }
+            retObj = document.object();
+            paraForecastJson(retObj);
+            loop.quit();
+        });
+
+    loop.exec();
+    return retObj;
+}
+
+
